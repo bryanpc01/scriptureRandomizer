@@ -1,0 +1,39 @@
+.container-fluid {
+  background-color: #C0C0C0;
+  height: 100vh;
+}
+.container-fluid .hero-container h1 {
+  padding-top: 15vh;
+  font-size: 3rem;
+}
+.container-fluid .section {
+  padding: 10vh 0 0 0;
+}
+.container-fluid .section .noHoverBtn:hover {
+  background-color: transparent;
+  color: #d84315;
+  border-color: #d84315;
+}
+.container-fluid .section button {
+  background-color: transparent;
+  color: #d84315;
+  font-size: 2rem;
+  border-width: 3px;
+  border-color: #d84315;
+  font-weight: 600;
+}
+.container-fluid .section button:hover {
+  border-color: #fff;
+  color: #fff;
+  background-color: #d84315;
+}
+.container-fluid .section button:focus {
+  box-shadow: none;
+}
+.container-fluid .section button:active {
+  box-shadow: none;
+  background-color: #d84315;
+}
+.container-fluid #randomBook {
+  padding-top: 10vh;
+}
