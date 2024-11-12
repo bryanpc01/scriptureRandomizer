@@ -347,16 +347,26 @@ let newTestament = {
 }
 
 //Returns the object of a random book given a testament object
-let randomBookObject = function (obj) {
+let randomBookGen = function (obj) {
     let books = Object.keys(obj)
     return obj[books[ books.length * Math.random() << 0]];
 };
 
 let zeroOne = Math.round(Math.random())
 let oldVsNew = zeroOne ? oldTestament : newTestament     
-let randomBook = randomBookObject(oldVsNew).name
+let randomBookObject = randomBookGen(oldVsNew)
+let randomBook = randomBookObject.name
+
 console.log(randomBook)
-let randomNum  = Math.floor(Math.random() * (4) + 2)
+
+let randomNum 
+
+if (randomBookObject.chapters < 4 ) {
+  randomNum = Math.floor(Math.random() * (randomBookObject.chapters) + 1)
+} else {
+  randomNum = Math.floor(Math.random() * (4) + 2)
+}
+
 
 let readingPrompt = document.getElementById('randomBook')
 let randomizerBtn = document.getElementById('randomizer')
