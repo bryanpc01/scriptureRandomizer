@@ -11,3 +11,7 @@ Random book of the Bible and number of chapters to read is generated when button
 - [ ] Control the amount of reading for a particular setting
 - [ ] Profiles and Reading Logs
 - [ ] Starred Scriptures
+
+# 2026 - Getting Back To It
+- [ ] Get familiar with the codebase.
+- [ ] Pick a new tech stack (perhaps modern dotnet w/ react)
