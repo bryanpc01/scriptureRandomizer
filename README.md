@@ -13,5 +13,5 @@ Random book of the Bible and number of chapters to read is generated when button
 - [ ] Starred Scriptures
 
 # 2026 - Getting Back To It
-- [ ] Get familiar with the codebase.
+- [x] Get familiar with the codebase
 - [ ] Pick a new tech stack (perhaps modern dotnet w/ react)
