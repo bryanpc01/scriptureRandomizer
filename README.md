@@ -14,4 +14,4 @@ Random book of the Bible and number of chapters to read is generated when button
 
 # 2026 - Getting Back To It
 - [x] Get familiar with the codebase
-- [ ] Pick a new tech stack (perhaps modern dotnet w/ react)
+- [x] Pick a new tech stack (perhaps modern dotnet w/ react)
