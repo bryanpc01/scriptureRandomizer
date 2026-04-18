@@ -4,19 +4,124 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="mainStyle.css">
     <title>Scripture Randomizer</title>
   </head>
   <body>
-    <div class="container-fluid">
-       <div class="hero-container text-center">
-         <h1>Scripture Randomizer</h1>
-      </div>
-      <div class="section d-flex justify-content-center">
-        <button id="randomizer" type="button" class="btn btn-outline-orange">Random Book</button>
-      </div>
-      <h2 id="randomBook" class="text-center"></h2>
+
+    <!-- Profile bar -->
+    <div class="profile-bar">
+      <span id="profileGreeting" class="profile-greeting"></span>
+      <button id="profileBtn" class="btn-profile-icon" title="Profile">
+        <span id="profileAvatar" class="avatar">&#9786;</span>
+      </button>
     </div>
+
+    <!-- Main content -->
+    <main class="main-layout">
+
+      <!-- Hero -->
+      <div class="hero text-center">
+        <div class="hero-emblem">&#10014;</div>
+        <h1 class="hero-title">Scripture Randomizer</h1>
+        <p class="hero-subtitle">Let the Word guide your reading today</p>
+      </div>
+
+      <!-- Card -->
+      <div class="card-panel">
+
+        <div class="option-group">
+          <span class="option-label">Testament</span>
+          <div class="pill-group" role="group">
+            <input type="radio" class="pill-check" name="testament" id="testamentBoth" value="both" checked>
+            <label class="pill" for="testamentBoth">Both</label>
+
+            <input type="radio" class="pill-check" name="testament" id="testamentOld" value="old">
+            <label class="pill" for="testamentOld">Old</label>
+
+            <input type="radio" class="pill-check" name="testament" id="testamentNew" value="new">
+            <label class="pill" for="testamentNew">New</label>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <span class="option-label">Reading Amount</span>
+          <div class="pill-group" role="group">
+            <input type="radio" class="pill-check" name="reading" id="readingLight" value="light">
+            <label class="pill" for="readingLight">Light<span class="pill-sub">1–2 ch</span></label>
+
+            <input type="radio" class="pill-check" name="reading" id="readingMedium" value="medium" checked>
+            <label class="pill" for="readingMedium">Medium<span class="pill-sub">3–5 ch</span></label>
+
+            <input type="radio" class="pill-check" name="reading" id="readingHeavy" value="heavy">
+            <label class="pill" for="readingHeavy">Heavy<span class="pill-sub">6+ ch</span></label>
+          </div>
+        </div>
+
+        <button id="randomizer" type="button" class="randomize-btn">
+          <span class="randomize-btn-text">Randomize</span>
+          <span class="randomize-btn-icon">&#10070;</span>
+        </button>
+
+      </div>
+
+      <!-- Result card -->
+      <div id="resultCard" class="result-card hidden">
+        <div class="result-inner">
+          <p class="result-label">Your reading for today</p>
+          <h2 id="readingTitle" class="result-title"></h2>
+          <p id="randomBook" class="result-passage"></p>
+          <div id="readingContext" class="reading-context">
+            <span id="contextTheme" class="context-theme"></span>
+            <p id="contextPrompt" class="context-prompt"></p>
+          </div>
+          <button id="starBtn" class="star-btn" title="Star this reading">
+            <span class="star-icon">&#9733;</span>
+            <span class="star-label">Save to Starred</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- History toggle -->
+      <div class="history-toggle-row">
+        <button id="toggleHistoryBtn" class="btn-toggle-history hidden">
+          <span id="toggleHistoryLabel">Reading History</span>
+          <span id="toggleHistoryArrow" class="toggle-arrow">&#9660;</span>
+        </button>
+      </div>
+
+      <!-- History drawer -->
+      <div class="history-drawer hidden" id="historySection">
+        <div class="history-tabs">
+          <button class="history-tab active" id="logTab" data-target="logPanel">Log</button>
+          <button class="history-tab" id="starredTab" data-target="starredPanel">Starred</button>
+        </div>
+        <div id="logPanel" class="history-panel active">
+          <ul id="logList" class="history-list"></ul>
+          <button id="clearLogBtn" class="btn-clear">Clear Log</button>
+        </div>
+        <div id="starredPanel" class="history-panel" style="display:none">
+          <ul id="starredList" class="history-list"></ul>
+          <button id="clearStarredBtn" class="btn-clear">Clear Starred</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Profile modal -->
+    <div id="profileModal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h5 class="modal-title">Your Profile</h5>
+        <label for="profileName" class="modal-label">Name</label>
+        <input type="text" id="profileName" class="modal-input" placeholder="Enter your name">
+        <div class="modal-actions">
+          <button id="profileCancel" class="btn-modal-cancel">Cancel</button>
+          <button id="profileSave" class="btn-modal-save">Save</button>
+        </div>
+      </div>
+    </div>
+
     <script src="mainScript.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>

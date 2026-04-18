@@ -7,10 +7,10 @@ Random book of the Bible and number of chapters to read is generated when button
 *Be sure to collaborate, comment, critique and enjoy the development of this application*
 
 # Phase 2: Adding Functionality
-- [ ] Choose between Old Testament and New Testament Books
-- [ ] Control the amount of reading for a particular setting
-- [ ] Profiles and Reading Logs
-- [ ] Starred Scriptures
+- [x] Choose between Old Testament and New Testament Books
+- [x] Control the amount of reading for a particular setting
+- [x] Profiles and Reading Logs
+- [x] Starred Scriptures
 
 # 2026 - Getting Back To It
 - [x] Get familiar with the codebase
