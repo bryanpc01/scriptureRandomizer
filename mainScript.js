@@ -299,6 +299,33 @@ let sectionThemes = {
   "Apocalyptic Writings":  "Ultimate Hope"
 }
 
+// ── Bible.com URL builder ─────────────────────────────────────────────────────
+
+let bookAbbreviations = {
+  'Genesis': 'GEN', 'Exodus': 'EXO', 'Leviticus': 'LEV', 'Numbers': 'NUM',
+  'Deuteronomy': 'DEU', 'Joshua': 'JOS', 'Judges': 'JDG', 'Ruth': 'RUT',
+  '1 Samuel': '1SA', '2 Samuel': '2SA', '1 Kings': '1KI', '2 Kings': '2KI',
+  'Nehemiah': 'NEH', 'Esther': 'EST', 'Job': 'JOB', 'Psalm': 'PSA', 'Psalms': 'PSA',
+  'Proverbs': 'PRO', 'Ecclesiastes': 'ECC', 'Song of Solomon': 'SNG',
+  'Isaiah': 'ISA', 'Jeremiah': 'JER', 'Lamentations': 'LAM', 'Ezekiel': 'EZK',
+  'Daniel': 'DAN', 'Hosea': 'HOS', 'Joel': 'JOL', 'Amos': 'AMO',
+  'Obadiah': 'OBA', 'Jonah': 'JON', 'Micah': 'MIC', 'Habakkuk': 'HAB',
+  'Zephaniah': 'ZEP', 'Zechariah': 'ZEC', 'Malachi': 'MAL',
+  'Matthew': 'MAT', 'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN',
+  'Acts': 'ACT', 'Romans': 'ROM', '1 Corinthians': '1CO', '2 Corinthians': '2CO',
+  'Galatians': 'GAL', 'Ephesians': 'EPH', 'Philippians': 'PHP', 'Colossians': 'COL',
+  '2 Timothy': '2TI', 'Hebrews': 'HEB', 'James': 'JAS', '1 Peter': '1PE',
+  '1 John': '1JN', 'Jude': 'JUD', 'Revelation': 'REV'
+}
+
+let buildBibleUrl = function (passage) {
+  let match = passage.match(/^(.+?)\s+(\d+)/)
+  if (!match) return '#'
+  let abbr = bookAbbreviations[match[1].trim()]
+  if (!abbr) return '#'
+  return `https://www.bible.com/bible/111/${abbr}.${match[2]}.NIV`
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 let getFilteredReadings = function () {
@@ -461,6 +488,9 @@ toggleHistoryBtn.addEventListener('click', () => {
 let currentResult    = null
 let resultCard       = document.getElementById('resultCard')
 let starBtn          = document.getElementById('starBtn')
+let markReadBtn      = document.getElementById('markReadBtn')
+let randomizerBtn    = document.getElementById('randomizer')
+let bibleLink        = document.getElementById('bibleLink')
 let readingTitleEl   = document.getElementById('readingTitle')
 let readingPrompt    = document.getElementById('randomBook')
 let contextThemeEl   = document.getElementById('contextTheme')
@@ -469,12 +499,33 @@ let contextPromptEl  = document.getElementById('contextPrompt')
 starBtn.addEventListener('click', () => {
   if (!currentResult) return
   let starred = loadJSON('starredScriptures', [])
-  if (!starred.some(s => s.text === currentResult.text)) {
+  let idx = starred.findIndex(s => s.text === currentResult.text)
+  if (idx === -1) {
     starred.unshift(currentResult)
-    saveJSON('starredScriptures', starred)
+    starBtn.classList.add('starred')
+    starBtn.querySelector('.star-label').textContent = 'Saved to Starred'
+  } else {
+    starred.splice(idx, 1)
+    starBtn.classList.remove('starred')
+    starBtn.querySelector('.star-label').textContent = 'Save to Starred'
   }
-  starBtn.classList.add('starred')
+  saveJSON('starredScriptures', starred)
   if (historyVisible) refreshStarred()
+})
+
+markReadBtn.addEventListener('click', () => {
+  if (!currentResult) return
+  let log = loadJSON('readingLog', [])
+  log.unshift(currentResult)
+  if (log.length > 50) log.pop()
+  saveJSON('readingLog', log)
+  if (historyVisible) refreshLog()
+
+  starBtn.disabled = false
+  markReadBtn.disabled = true
+  markReadBtn.classList.add('mark-read-done')
+  markReadBtn.innerHTML = '<span>&#10003;</span><span>Marked as Read</span>'
+  randomizerBtn.querySelector('.randomize-btn-text').textContent = 'Randomize'
 })
 
 // ── Main randomizer ───────────────────────────────────────────────────────────
@@ -489,14 +540,15 @@ document.getElementById('randomizer').addEventListener('click', () => {
   contextThemeEl.textContent  = sectionThemes[reading.section] || reading.section
   contextPromptEl.textContent = reading.description
   currentResult = { title: reading.title, text: reading.passage, date }
-
-  let log = loadJSON('readingLog', [])
-  log.unshift({ title: reading.title, text: reading.passage, date })
-  if (log.length > 50) log.pop()
-  saveJSON('readingLog', log)
-  if (historyVisible) refreshLog()
+  bibleLink.href = buildBibleUrl(reading.passage)
 
   resultCard.classList.remove('hidden')
   starBtn.classList.remove('starred')
+  starBtn.querySelector('.star-label').textContent = 'Save to Starred'
+  starBtn.disabled = true
+  markReadBtn.disabled = false
+  markReadBtn.classList.remove('mark-read-done')
+  markReadBtn.innerHTML = '<span>&#10003;</span><span>I Read This</span>'
   toggleHistoryBtn.classList.remove('hidden')
+  randomizerBtn.querySelector('.randomize-btn-text').textContent = 'Try a Different Reading'
 })
